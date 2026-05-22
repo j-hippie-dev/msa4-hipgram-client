@@ -1,7 +1,9 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue';
 import MyButton from '../../components/button/MyButton.vue';
-import myAxios from '../../api/myAxios.js';
+import { usePostIndexStore }  from '../../store/post/usePostIndexStore.js';
+import { useMyErrorStroe } from '../../store/error/useMyErrorStore.js';
+import { useRouter } from 'vue-router';
 
 // TODO: 테스트용 나중에 삭제 START
 // const testList = [
@@ -14,51 +16,117 @@ import myAxios from '../../api/myAxios.js';
 // ];
 // TODO: 테스트용 나중에 삭제 END
 
-const posts = ref([]);
-const isLastPage = ref(false);
-let currentPage = 1;
+//  -------------------store로 이관 START-------------------
+// const posts = ref([]);
+// const isLastPage = ref(false);
+// let currentPage = 0;
 
-// 함수
-const getPostPagination = async () => {
-  // 마지막 페이지가 아닐 경우만 실행
-  if(!isLastPage.value) {
-    try {
-      const url = '/api/posts';
-      // config에 들어가는 속성명이 정해져 있음. 무조건 params 사용
-      const params = {
-        page: currentPage
-      };
+// // 함수
+// // (page =  1): default값 설정해줌.
+// const getPostPagination = async (page = 1) => { // (page) -> 매개변수로 받기(외부에서 전달)
+//   // 마지막 페이지가 아닐 경우만 실행
+//   if(!isLastPage.value) {
+//     try {
+//       const url = '/api/posts';
+//       // config에 들어가는 속성명이 정해져 있음. 무조건 params 사용
+//       const params = {
+//         // page: currentPage // 직접적으로 쓰는 것보다 외부에서 전달받는게 좋음.
+//         page
+//       };
   
-      const res = await myAxios.get(url, { params });
-      const data = res.data.data;
-      isLastPage.value = data.lastPage;
-      posts.value.push(...data.posts);
-    } catch(error) {
-        console.error(error);
-    }
-  }
+//       // Axios(비동기) 처리 => stroe Actions에서 처리(, 관리) // 컴포넌트에서 같이 작성하면 코드가 너무 길어짐.
+//       const res = await myAxios.get(url, { params });
+//       const data = res.data.data;
+//       isLastPage.value = data.lastPage;
+//       posts.value.push(...data.posts);
+
+//       currentPage++;
+//     } catch(error) {
+//         console.error(error);
+//     }
+//   }
+// }
+// -------------------store로 이관 END-------------------
+// -----------------------------------------------------
+// const getNextPage = () => {
+//   // currentPage++; // 페이지 값을 먼저 올리고
+//   // getPostPagination(); // 함수 실행
+//   getPostPagination(currentPage + 1);
+// }
+
+// // 라이프 사이클
+// onBeforeMount(getPostPagination); // (page = 1) 디폴트 값 설정해주면 매개변수 받을 필요 없음.
+// // onBeforeMount(() => {
+// //   getPostPagination(1);
+// // });
+// -----------------------------------------------------
+
+const postIndexStore = usePostIndexStore();
+// const myErrorStore = useMyErrorStroe();
+// const router = useRouter();
+
+const getNextPage = async () => {
+  await postIndexStore.getPostPagination(postIndexStore.getNextPageNumber);
 }
 
 // 라이프 사이클
-onBeforeMount(getPostPagination);
+onBeforeMount(postIndexStore.getPostPagination);
 
+// // 모듈화
+// const paginationProcess = async (page = 1) => {
+//   try {
+//     await postIndexStore.getPostPagination(page);
+//   } catch(error) {
+//     myErrorStore.setErrorInfo(error);
+//     // router.replace('/errors') // 현재 사용 불가
+//   }
+// }
 
+// const getNextPage = async () => {
+//   await paginationProcess(postIndexStore.getNextPageNumber);
+// }
+
+// // 라이프 사이클
+// onBeforeMount(paginationProcess);
+
+// ----------------------------------------------
+// const getNextPage = async () => {
+//   try {
+//     await postIndexStore.getPostPagination(postIndexStore.getNextPageNumber);
+//   } catch(error) {
+//     myErrorStore.setErrorInfo(error);
+//     router.replace('/errors')
+//   }
+// }
+
+// // 라이프 사이클
+// onBeforeMount(async () => {
+//   try {
+//     await postIndexStore.getPostPagination()
+//   } catch(error) {
+//     myErrorStore.setErrorInfo(error);
+//     router.replace('/errors')
+//   }
+// });
+// ----------------------------------------------
 </script>
 
 <template>
   <div class="card-container">
     <div
-      v-for="item in posts"
-      :key="item.id"
       class="card"
+      v-for="item in postIndexStore.items"
+      :key="item.id"
       :style="{backgroundImage: `url(${item.image})`}"
     ></div>
   </div>
   <MyButton
-    v-if="!isLastPage"
+    v-if="!postIndexStore.isLastPage"
     :color="'gray'"
     :size="'big'"
-    :content="'Show more posts from hippie'" />
+    :content="'Show more posts from hippie'"
+    @click="getNextPage()"
+  />
 </template>
 
 <style scoped>

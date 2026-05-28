@@ -13,10 +13,16 @@ export const usePostIndexStore = defineStore('postIndex', () => {
   const getNextPageNumber = computed(() => currentPage.value + 1);
 
   // 3. Actions (function)
+  const clearPostIndex = () => { // PostIndex 초기화
+    items.value = [];
+    isLastPage.value = false;
+    currentPage.value = 0;
+  }
+
   const getPostPagination = async (page = 1) => {
     if(!isLastPage.value) {
       try {
-        const url = '/api/post';
+        const url = '/api/posts';
         const params = {
           page
         };
@@ -68,6 +74,7 @@ export const usePostIndexStore = defineStore('postIndex', () => {
     , getNextPageNumber
 
     // actions
+    , clearPostIndex
     , getPostPagination
   }
 });

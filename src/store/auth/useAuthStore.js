@@ -27,7 +27,7 @@ export const useAuthStore = defineStore('authStore', () => {
       accessToken.value = data.accessToken;
       userInfo.value = data.user;
       isLoggedIn.value = true;
-    } catch(error) {
+    } catch (error) {
       console.error(error);
       if(error.response) {
         if(error.response.data.code === 'E01') {
@@ -41,6 +41,22 @@ export const useAuthStore = defineStore('authStore', () => {
     }
   }
 
+  const reissue = async () => {
+    try {
+      const url = '/api/reissue-token';
+
+      const res = await myAxios.post(url);
+      const data = res.data.data;
+      accessToken.value = data.accessToken;
+      userInfo.value = data.user;
+      isLoggedIn.value = true;
+    } catch (error) {
+      clearAuthStore();
+      throw error;
+      // useMyErrorStroe().setErrorInfo(error);
+    }
+  }
+
   return {
     // State
     isLoggedIn
@@ -51,5 +67,6 @@ export const useAuthStore = defineStore('authStore', () => {
     
     // Actions
     , login
+    , reissue
   }
 });

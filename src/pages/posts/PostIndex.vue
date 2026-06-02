@@ -61,12 +61,17 @@ import { useRouter } from 'vue-router';
 // // });
 // -----------------------------------------------------
 
+const router = useRouter();
 const postIndexStore = usePostIndexStore();
 // const myErrorStore = useMyErrorStroe();
 // const router = useRouter();
 
 const getNextPage = async () => {
   await postIndexStore.getPostPagination(postIndexStore.getNextPageNumber);
+}
+
+const redirectShow = (id) => {
+  router.push(`/posts/${id}`);
 }
 
 // 라이프 사이클
@@ -119,6 +124,7 @@ onBeforeUnmount(postIndexStore.clearPostIndex);
       v-for="item in postIndexStore.items"
       :key="item.id"
       :style="{backgroundImage: `url(${item.image})`}"
+      @click="redirectShow(item.id)"
     ></div>
   </div>
   <MyButton

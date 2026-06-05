@@ -2,9 +2,11 @@
 import { onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router';
 import { usePostShowStore } from '../../store/post/usePostShowStore';
+import { useAuthStore } from '../../store/auth/useAuthStore';
 
 const route = useRoute();
 const postShowStore = usePostShowStore();
+const authStore = useAuthStore();
 
 onBeforeMount(async () => {
   try {
@@ -14,15 +16,22 @@ onBeforeMount(async () => {
     const msg = error?.response?.message ? error?.response?.message : "포스트 획득 실패";
     alert(msg);
   }
-})
+});
 console.log(route.params.id);
+
+onBeforeMount(postShowStore.clearPostShow);
 </script>
 
 <template>
-<div class="container">
+<div class="container" v-if="postShowStore.post">
   <div class="image" :style="{backgroundImage: `url(${postShowStore.post.image})`}"></div>
   <div class="option-box">
-    <div class="delete-icon"></div>
+    <div class="delete-box">
+      <div
+        class="delete-icon"
+        v-if="postShowStore.post.userId === authStore.userInfo.id"
+      ></div>
+    </div>
     <div class="like-box">
       <span>1919</span>
       <div class="like-icon"></div>

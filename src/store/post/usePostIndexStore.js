@@ -37,11 +37,12 @@ export const usePostIndexStore = defineStore('postIndex', () => {
         console.error(error); // 배포할 땐 지워줘야 함
 
         // 단발성 (바로 사용)
-        useMyErrorStroe().setErrorInfo(error);
+        // useMyErrorStroe().setErrorInfo(error);
 
         // 변수에 담아서 사용
-        const myErrorStore = useMyErrorStroe();
-        myErrorStore.setErrorInfo(error);
+        // const myErrorStore = useMyErrorStroe();
+        // myErrorStore.setErrorInfo(error);
+        throw error;
       }
 
 

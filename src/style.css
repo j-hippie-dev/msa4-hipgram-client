@@ -14,3 +14,18 @@
   max-width: 1000px;
   margin: 0 auto;
 }
+
+.bg-image-circle {
+  padding-top: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+}
+
+.bg-image-square {
+  padding-top: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}

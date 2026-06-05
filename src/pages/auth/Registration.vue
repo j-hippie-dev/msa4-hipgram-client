@@ -6,12 +6,12 @@ import { useFileStore } from '../../store/file/useFileStore.js';
 import { useAuthStore } from '../../store/auth/useAuthStore.js';
 import { useRouter } from 'vue-router';
 import registrationValidator from '../../util/validator/domain/auth/registrationValidator.js';
-import { usePostShowStore } from '../../store/post/usePostShowStore.js';
+import { useMyErrorStroe } from '../../store/error/useMyErrorStore.js';
 
 const router = useRouter();
 const fileStore = useFileStore();
-const postShowStore = usePostShowStore();
 const authStore = useAuthStore();
+const myErrorStore = useMyErrorStroe();
 
 const preview = ref(null);
 const selectedFile = ref(null);
@@ -51,8 +51,9 @@ const handleSubmit = async () => {
     } else if(data.code === 'E21') {
       alert('잘못된 양식입니다.')
     } else {
-      alert("오류가 발생했습니다.\n잠시 후 다시 시도해 주십시오.")
-      router.replace('/');
+      // alert("오류가 발생했습니다.\n잠시 후 다시 시도해 주십시오.")
+      useMyErrorStroe.setErrorInfo(error);
+      router.replace('/error');
     }
   }
 }

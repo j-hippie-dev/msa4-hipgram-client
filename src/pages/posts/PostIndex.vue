@@ -65,9 +65,20 @@ const router = useRouter();
 const postIndexStore = usePostIndexStore();
 // const myErrorStore = useMyErrorStroe();
 // const router = useRouter();
+const myErrorStore = useMyErrorStroe();
+
+const getPagination = async (page = 1) => {
+  try {
+    await postIndexStore.getPostPagination(page);
+  } catch (error) {
+    myErrorStore.setErrorInfo(error);
+    router.replace('/error');
+  }
+}
 
 const getNextPage = async () => {
-  await postIndexStore.getPostPagination(postIndexStore.getNextPageNumber);
+  await getPagination(postIndexStore.getNextPageNumber);
+  // await postIndexStore.getPostPagination(postIndexStore.getNextPageNumber);
 }
 
 const redirectShow = (id) => {
@@ -75,7 +86,8 @@ const redirectShow = (id) => {
 }
 
 // 라이프 사이클
-onBeforeMount(postIndexStore.getPostPagination);
+// onBeforeMount(postIndexStore.getPostPagination);
+onBeforeMount(getPagination);
 onBeforeUnmount(postIndexStore.clearPostIndex);
 
 // // 모듈화

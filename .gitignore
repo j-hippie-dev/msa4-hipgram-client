@@ -27,3 +27,5 @@ src/assets
 *.njsproj
 *.sln
 *.sw?
+
+msa4-meerkatgram-client-doc

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import myAxios from "../../api/myAxios";
-import { useMyErrorStroe } from "../error/useMyErrorStore";
+import { useMyErrorStore } from "../error/useMyErrorStore";
 
 export const usePostIndexStore = defineStore('postIndex', () => {
   // 1. State (ref)
@@ -37,7 +37,7 @@ export const usePostIndexStore = defineStore('postIndex', () => {
         console.error(error); // 배포할 땐 지워줘야 함
 
         // 단발성 (바로 사용)
-        // useMyErrorStroe().setErrorInfo(error);
+        // useMyErrorStore().setErrorInfo(error);
 
         // 변수에 담아서 사용
         // const myErrorStore = useMyErrorStroe();

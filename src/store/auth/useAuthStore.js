@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import myAxios from "../../api/myAxios";
-import { useMyErrorStroe } from "../error/useMyErrorStore";
+import { useMyErrorStore } from "../error/useMyErrorStore";
 
 export const useAuthStore = defineStore('authStore', () => {
   // 1. state
@@ -30,7 +30,7 @@ export const useAuthStore = defineStore('authStore', () => {
     } catch (error) {
       console.error(error);
 
-      // useMyErrorStroe().setErrorInfo(error);
+      // useMyErrorStore().setErrorInfo(error);
       throw error;
     }
   }
@@ -47,7 +47,7 @@ export const useAuthStore = defineStore('authStore', () => {
     } catch (error) {
       clearAuthStore();
       // throw error;
-      // useMyErrorStroe().setErrorInfo(error);
+      // useMyErrorStore().setErrorInfo(error);
     }
   }
 

@@ -2,7 +2,7 @@
 import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import MyButton from '../../components/button/MyButton.vue';
 import { usePostIndexStore }  from '../../store/post/usePostIndexStore.js';
-import { useMyErrorStore } from '../../store/error/useMyErrorStore.js';
+import { useMyErrorStroe } from '../../store/error/useMyErrorStore.js';
 import { useRouter } from 'vue-router';
 
 // TODO: 테스트용 나중에 삭제 START
@@ -63,9 +63,9 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const postIndexStore = usePostIndexStore();
-// const myErrorStore = useMyErrorStore();
+// const myErrorStore = useMyErrorStroe();
 // const router = useRouter();
-const myErrorStore = useMyErrorStore();
+const myErrorStore = useMyErrorStroe();
 
 const getPagination = async (page = 1) => {
   try {

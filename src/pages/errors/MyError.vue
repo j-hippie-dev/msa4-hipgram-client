@@ -1,10 +1,10 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import MyButton from '../../components/button/MyButton.vue';
-import { useMyErrorStore } from '../../store/error/useMyErrorStore';
+import { useMyErrorStroe } from '../../store/error/useMyErrorStore';
 
 const router = useRouter();
-const myErrorStore = useMyErrorStore();
+const myErrorStore = useMyErrorStroe();
 
 const redirectMain = () => {
   myErrorStore.clearErrorInfo();

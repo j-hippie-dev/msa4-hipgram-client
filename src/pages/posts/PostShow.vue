@@ -3,13 +3,13 @@ import { onBeforeMount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { usePostShowStore } from '../../store/post/usePostShowStore';
 import { useAuthStore } from '../../store/auth/useAuthStore';
-import { useMyErrorStore } from '../../store/error/useMyErrorStore';
+import { useMyErrorStroe } from '../../store/error/useMyErrorStore';
 
 const route = useRoute();
 const router = useRouter();
 const postShowStore = usePostShowStore();
 const authStore = useAuthStore();
-const myErrorStore = useMyErrorStore();
+const myErrorStore = useMyErrorStroe();
 
 onBeforeMount(async () => {
   try {

@@ -1,14 +1,7 @@
 <script setup>
-import { useRouter } from 'vue-router';
 import { useAuthStore } from '../store/auth/useAuthStore';
 
 const authStore = useAuthStore();
-
-const router = useRouter();
-
-const redirectPostCreate = () => {
-  router.push('/posts/store');
-}
 </script>
 
 <template>
@@ -34,7 +27,6 @@ const redirectPostCreate = () => {
         <div
           class="bg-image-square redirect-icon-users-info"
           style="background-image: url('/icons/plus-sign.png');"
-          @click="redirectPostCreate"
         ></div>
         <div
           class="bg-image-square redirect-icon-posts-create"

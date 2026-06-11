@@ -6,11 +6,11 @@ import MyStrikeThroughBehindWord from '../../components/decoration/MyStrikeThrou
 import { useAuthStore } from '../../store/auth/useAuthStore.js';
 import { useRouter } from 'vue-router';
 import loginValidator from '../../util/validator/domain/auth/loginValidator.js';
-import { useMyErrorStore } from '../../store/error/useMyErrorStore.js';
+import { useMyErrorStroe } from '../../store/error/useMyErrorStore.js';
 
 const router = useRouter();
 const authStore = useAuthStore();
-const myErrorStore = useMyErrorStore();
+const myErrorStore = useMyErrorStroe();
 const loginForm = reactive({
   email: ''
   , password: ''
